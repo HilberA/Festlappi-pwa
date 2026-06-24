@@ -1,9 +1,9 @@
 const CACHE_NAME = 'festlapp-v1';
 const ASSETS = [
-  '/',
-  '/index.html',
-  '/app.js',
-  '/manifest.json'
+  '/Festlappi-pwa/',
+  '/Festlappi-pwa/index.html',
+  '/Festlappi-pwa/app.js',
+  '/Festlappi-pwa/manifest.json'
 ];
 
 self.addEventListener('install', event => {
