@@ -659,8 +659,9 @@ function showLoading(show) {
 
 // ─── Init ─────────────────────────────────────────────────────────────────
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js');
+  navigator.serviceWorker.register('/Festlappi-pwa/sw.js');
 }
+
 
 // jsQR dynamisch laden (Fallback für Browser ohne BarcodeDetector)
 const jsQRScript = document.createElement('script');
