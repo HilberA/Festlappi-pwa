@@ -140,7 +140,25 @@ async function loadMenu(){
 
 async function loadWaiters(){var r=await fg(tp('waiters'));if(!r.documents)return[];return r.documents.map(function(d){var f=d.fields||{};return{id:did(d.name),name:fr(f.name),qrCode:fr(f.qrCode),isActive:fr(f.isActive)};}).filter(function(w){return w.isActive;});}
 async function loadMenu(){var r=await fg(tp('menu'));if(!r.documents)return[];return r.documents.map(function(d){var f=d.fields||{};return{id:did(d.name),name:fr(f.name),price:fr(f.price),category:fr(f.category),isAvailable:fr(f.isAvailable)};}).filter(function(m){return m.isAvailable;});}
-async function findLicense(pin){var r=await fg('licenses');if(!r.documents)return null;var found=null;r.documents.forEach(function(d){var f=d.fields||{};var l={id:did(d.name),pin:fr(f.pin),isActive:fr(f.isActive)};if(l.pin===pin&&l.isActive)found=l;});return found;}
+async function fg(p){
+  try {
+    var url=BASE+'/'+p+'?key='+AKEY;
+    var r=await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      mode: 'cors'
+    });
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    return r.json();
+  } catch(e) {
+    console.error('fg error:', e);
+    return {};
+  }
+}
+
 async function sendOrder(o){var items=o.items.map(function(i){return{menuItemId:i.menuItemId,menuItemName:i.menuItemName,price:i.price,quantity:i.quantity,note:''};});var fields={tableNumber:o.tableNumber,waiterName:o.waiterName,status:'open',items:items,total:o.total};var enc={};Object.keys(fields).forEach(function(k){enc[k]=fv(fields[k]);});enc.timestamp={timestampValue:new Date().toISOString()};await fp(tp('orders')+'/'+o.id,{fields:enc});}
 
 function render(){
